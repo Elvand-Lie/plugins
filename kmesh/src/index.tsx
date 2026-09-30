@@ -1,10 +1,17 @@
-import { registerRoute, registerSidebarEntry } from '@kinvolk/headlamp-plugin/lib';
+import {
+  registerDetailsViewSection,
+  registerRoute,
+  registerSidebarEntry,
+} from '@kinvolk/headlamp-plugin/lib';
 import type { ComponentType } from 'react';
 import AuthzPolicies from './components/daemon/AuthzPolicies';
 import EbpfMaps from './components/daemon/EbpfMaps';
 import HealthDashboard from './components/daemon/HealthDashboard';
 import ObservabilityPanel from './components/daemon/ObservabilityPanel';
 import XdsConfigDump from './components/daemon/XdsConfigDump';
+import NamespaceEnrollment from './components/namespace/NamespaceEnrollment';
+import KmeshNodeInfoDetail from './components/nodeinfo/Detail';
+import KmeshNodeInfoList from './components/nodeinfo/List';
 import WaypointDetail from './components/waypoints/Detail';
 import WaypointList from './components/waypoints/List';
 import { kmeshRouteNames, kmeshRoutePaths } from './utils/kmeshRoutes';
@@ -86,6 +93,16 @@ const kmeshResources: KmeshResourceRegistration[] = [
     detailRouteName: kmeshRouteNames.waypointDetail,
     ListComponent: WaypointList,
     DetailComponent: WaypointDetail,
+  },
+  {
+    sidebarName: 'kmesh-node-security',
+    label: 'Node Security',
+    listPath: kmeshRoutePaths.nodeInfoList,
+    detailPath: kmeshRoutePaths.nodeInfoDetail,
+    listRouteName: kmeshRouteNames.nodeInfoList,
+    detailRouteName: kmeshRouteNames.nodeInfoDetail,
+    ListComponent: KmeshNodeInfoList,
+    DetailComponent: KmeshNodeInfoDetail,
   },
 ];
 
@@ -170,3 +187,6 @@ registerRoute({
   exact: true,
   component: () => <EbpfMaps />,
 });
+
+// Register Namespace Enrollment section in the details view
+registerDetailsViewSection(NamespaceEnrollment);
